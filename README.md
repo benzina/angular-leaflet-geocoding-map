@@ -3,7 +3,7 @@
 Mini-application Angular 13 concue comme piece portfolio frontend : recherche
 geographique, selection de resultats, carte interactive et points sauvegardes.
 
-**Demo live :** https://benzina.github.io/angular-leaflet-starter/
+**Demo live :** https://benzina.github.io/angular-leaflet-geocoding-map/
 
 ![Demo de recherche et sauvegarde de point](docs/demo-screenshot.png)
 
@@ -136,7 +136,7 @@ Le build GitHub Pages a ete publie avec `angular-cli-ghpages`.
 Commande de build utilisee pour ce repository :
 
 ```bash
-npm run build -- --base-href /angular-leaflet-starter/
+npm run build -- --base-href /angular-leaflet-geocoding-map/
 ```
 
 Puis publication du dossier compile :
@@ -147,7 +147,6 @@ npx angular-cli-ghpages --dir=dist/angular-leaflet-geocoding-map
 
 ## Evolutions possibles
 
-- Renommer le repository GitHub pour aligner l'URL Pages avec le nouveau nom du projet.
 - Ajouter l'edition et la suppression des points sauvegardes.
 - Remplacer `localStorage` par un backend persistant.
 - Ajouter une limite/debounce si la recherche evolue vers de l'autocomplete.
