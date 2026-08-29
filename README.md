@@ -1,25 +1,25 @@
 # Angular Leaflet Geocoding Map
 
-Mini-application Angular 13 concue comme piece portfolio frontend : recherche
-geographique, selection de resultats, carte interactive et points sauvegardes.
+An Angular 13 portfolio project that demonstrates geocoding, interactive maps,
+component communication, reactive state, form validation and local persistence.
 
-**Demo live :** https://benzina.github.io/angular-leaflet-geocoding-map/
+**Live demo:** https://benzina.github.io/angular-leaflet-geocoding-map/
 
-![Demo de recherche et sauvegarde de point](docs/demo-screenshot.png)
+![Search, result selection and saved map point demo](docs/demo-screenshot.png)
 
-## Fonctionnalites
+## Features
 
-- Recherche d'adresses et de lieux avec l'API Nominatim OpenStreetMap.
-- Gestion visible des etats de chargement, erreurs reseau et recherches sans resultat.
-- Liste de resultats cliquables pour centrer la carte et afficher un marqueur temporaire.
-- Formulaire de sauvegarde d'un point avec nom, latitude et longitude editables.
-- Validation du formulaire : nom obligatoire, latitude entre `-90` et `90`, longitude entre `-180` et `180`.
-- Marqueurs persistants sur la carte, sauvegardes dans `localStorage`.
-- Carte Leaflet reactive basee sur `@asymmetrik/ngx-leaflet`.
-- Tests unitaires pour le geocodage, le formulaire et le service de persistence.
-- Licence MIT.
+- Address and place search powered by the OpenStreetMap Nominatim API.
+- Visible loading, network error and empty-result states.
+- Clickable search results that center the map and display a temporary marker.
+- Save-point form with editable name, latitude and longitude.
+- Form validation: required name, latitude between `-90` and `90`, longitude between `-180` and `180`.
+- Persistent map markers saved in `localStorage`.
+- Reactive Leaflet map integration with `@asymmetrik/ngx-leaflet`.
+- Unit tests for geocoding, form validation and point persistence.
+- MIT license.
 
-## Stack technique
+## Tech Stack
 
 - Angular `13.2`
 - TypeScript `4.5`
@@ -30,43 +30,42 @@ geographique, selection de resultats, carte interactive et points sauvegardes.
 
 ## Architecture
 
-L'application separe volontairement les responsabilites pour montrer un flux de
-donnees Angular clair.
+The application intentionally separates responsibilities to make the Angular
+data flow easy to understand and explain.
 
-`AppComponent` joue le role de composant conteneur. Il conserve l'etat de la
-recherche courante : resultats, resultat selectionne et indicateur "une
-recherche a deja ete lancee".
+`AppComponent` acts as the container component. It owns the current search
+state: results, selected result and whether a search has already been run.
 
-`GeocodingComponent` gere le champ de recherche, appelle Nominatim via
-`HttpClient`, puis emet les resultats normalises avec `@Output`.
-
-`ResultsListComponent` est presentational : il recoit les resultats avec
-`@Input`, affiche les etats vide/resultats, puis emet le resultat choisi avec
+`GeocodingComponent` owns the search input, calls Nominatim through
+`HttpClient`, normalizes the response and emits the resulting locations with
 `@Output`.
 
-`MapPointFormComponent` recoit le resultat selectionne avec `@Input`, pre-remplit
-son formulaire reactif et sauvegarde le point via `MapPointsService`.
+`ResultsListComponent` is presentational. It receives results with `@Input`,
+renders empty/result states and emits the selected result with `@Output`.
 
-`MapComponent` ecoute le meme `MapPointsService`. Le service expose un
-`Observable` base sur un `BehaviorSubject`, ce qui permet a la carte de se
-mettre a jour automatiquement des qu'un nouveau point est ajoute.
+`MapPointFormComponent` receives the selected result with `@Input`, pre-fills a
+reactive form and saves valid points through `MapPointsService`.
 
-`MapPointsService` est la source de verite pour les points sauvegardes. Il garde
-les points en memoire et les persiste dans `localStorage`, ce qui conserve les
-marqueurs apres rechargement de la page.
+`MapComponent` also listens to `MapPointsService`. The service exposes an
+`Observable` backed by a `BehaviorSubject`, so the map updates automatically
+whenever a new point is saved.
 
-## API Nominatim
+`MapPointsService` is the source of truth for saved points. It keeps the current
+points in memory and persists them to `localStorage`, so markers survive page
+reloads without requiring a backend.
 
-La recherche utilise :
+## Nominatim API
+
+Search requests use:
 
 ```text
 https://nominatim.openstreetmap.org/search
 ```
 
-Le projet limite volontairement les appels a une recherche explicite au submit
-du formulaire. Dans un navigateur, l'en-tete `User-Agent` ne peut pas etre
-defini manuellement par le code frontend ; l'identification publique se fait
-donc via le `Referer` de l'application deployee.
+The app only calls the API when the user submits the search form, which keeps
+request volume reasonable for a demo. In browser-based frontend code, the
+`User-Agent` header cannot be set manually; the deployed application is
+identified publicly through its `Referer`.
 
 ## Installation
 
@@ -74,79 +73,79 @@ donc via le `Referer` de l'application deployee.
 npm install
 ```
 
-## Lancer l'application
+## Run Locally
 
 ```bash
 npm start
 ```
 
-Application locale :
+Local application URL:
 
 ```text
 http://localhost:4200/
 ```
 
-## Scripts disponibles
+## Available Scripts
 
 ```bash
 npm start
 ```
 
-Lance le serveur de developpement Angular.
+Runs the Angular development server.
 
 ```bash
 npm run build
 ```
 
-Compile l'application dans `dist/angular-leaflet-geocoding-map`.
+Builds the application into `dist/angular-leaflet-geocoding-map`.
 
 ```bash
 npm run watch
 ```
 
-Compile en mode watch avec la configuration de developpement.
+Builds in watch mode with the development configuration.
 
 ```bash
 npm test -- --watch=false --browsers=ChromeHeadless
 ```
 
-Lance les tests unitaires en mode CI local.
+Runs the unit test suite in a local CI-style mode.
 
-## Structure du projet
+## Project Structure
 
 ```text
 src/
   app/
-    geocoding/             Recherche Nominatim
-    map/                   Carte Leaflet et marqueurs
-    map-point-form/        Formulaire de sauvegarde de point
-    models/                Types partages
-    results-list/          Liste presentational des resultats
-    services/              Etat et persistence des points
-    app.component.*        Composant conteneur
-    app.module.ts          Module principal
+    geocoding/             Nominatim search component
+    map/                   Leaflet map and markers
+    map-point-form/        Saved point form
+    models/                Shared TypeScript models
+    results-list/          Presentational search results list
+    services/              Point state and persistence
+    app.component.*        Container component
+    app.module.ts          Main Angular module
   assets/
-    marker-icon.png        Icone du marqueur
+    marker-icon.png        Marker icon
 ```
 
-## Deploiement
+## Deployment
 
-Le build GitHub Pages a ete publie avec `angular-cli-ghpages`.
+The GitHub Pages build is published with `angular-cli-ghpages`.
 
-Commande de build utilisee pour ce repository :
+Build command used for this repository:
 
 ```bash
 npm run build -- --base-href /angular-leaflet-geocoding-map/
 ```
 
-Puis publication du dossier compile :
+Publish the compiled folder:
 
 ```bash
 npx angular-cli-ghpages --dir=dist/angular-leaflet-geocoding-map
 ```
 
-## Evolutions possibles
+## Possible Improvements
 
-- Ajouter l'edition et la suppression des points sauvegardes.
-- Remplacer `localStorage` par un backend persistant.
-- Ajouter une limite/debounce si la recherche evolue vers de l'autocomplete.
+- Add editing and deletion for saved points.
+- Replace `localStorage` with a persistent backend.
+- Add debounce/rate limiting if search evolves into autocomplete.
