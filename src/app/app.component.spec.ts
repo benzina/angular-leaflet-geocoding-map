@@ -1,12 +1,29 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { AppComponent } from './app.component';
+import { GeocodingComponent } from './geocoding/geocoding.component';
+import { MapPointFormComponent } from './map-point-form/map-point-form.component';
+import { MapComponent } from './map/map.component';
+import { ResultsListComponent } from './results-list/results-list.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        AppComponent,
+        GeocodingComponent,
+        ResultsListComponent,
+        MapPointFormComponent,
+        MapComponent
       ],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientTestingModule,
+        LeafletModule
+      ]
     }).compileComponents();
   });
 
@@ -16,16 +33,20 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'angular-leaflet-starter'`, () => {
+  it('should update results and selected result from child events', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('angular-leaflet-starter');
-  });
+    const result = {
+      displayName: 'Paris, France',
+      latitude: 48.8566,
+      longitude: 2.3522
+    };
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('angular-leaflet-starter app is running!');
+    app.handleResultsFound([result]);
+    app.handleResultSelected(result);
+
+    expect(app.results).toEqual([result]);
+    expect(app.hasSearched).toBeTrue();
+    expect(app.selectedResult).toEqual(result);
   });
 });

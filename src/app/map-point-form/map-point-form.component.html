@@ -1,0 +1,24 @@
+<form class="point-form" [formGroup]="pointForm" (ngSubmit)="savePoint()">
+  <h2>Sauvegarder un point</h2>
+
+  <label for="point-name">Nom</label>
+  <input id="point-name" type="text" formControlName="name">
+  <p class="error" *ngIf="hasError('name')">Le nom est obligatoire.</p>
+
+  <div class="coordinates">
+    <div>
+      <label for="point-latitude">Latitude</label>
+      <input id="point-latitude" type="number" step="any" formControlName="latitude">
+      <p class="error" *ngIf="hasError('latitude')">Latitude valide attendue entre -90 et 90.</p>
+    </div>
+
+    <div>
+      <label for="point-longitude">Longitude</label>
+      <input id="point-longitude" type="number" step="any" formControlName="longitude">
+      <p class="error" *ngIf="hasError('longitude')">Longitude valide attendue entre -180 et 180.</p>
+    </div>
+  </div>
+
+  <button type="submit">Ajouter a la carte</button>
+  <p class="success" *ngIf="savedMessage">{{ savedMessage }}</p>
+</form>

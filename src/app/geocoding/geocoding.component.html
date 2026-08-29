@@ -1,0 +1,16 @@
+<form class="geocoding" (ngSubmit)="search()">
+  <label for="geocoding-query">Adresse ou lieu</label>
+  <div class="search-row">
+    <input
+      id="geocoding-query"
+      name="query"
+      type="search"
+      [(ngModel)]="query"
+      placeholder="Ex. Paris, Gare de Lyon"
+      autocomplete="off">
+    <button type="submit" [disabled]="isLoading || !query.trim()">
+      {{ isLoading ? 'Recherche...' : 'Rechercher' }}
+    </button>
+  </div>
+  <p class="feedback" *ngIf="errorMessage">{{ errorMessage }}</p>
+</form>

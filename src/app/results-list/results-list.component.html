@@ -1,0 +1,21 @@
+<section class="results" aria-label="Resultats de recherche">
+  <h2>Resultats</h2>
+
+  <p class="empty" *ngIf="hasSearched && results.length === 0">
+    Aucun lieu ne correspond a cette recherche.
+  </p>
+
+  <p class="empty" *ngIf="!hasSearched">
+    Lancez une recherche pour afficher les lieux correspondants.
+  </p>
+
+  <button
+    type="button"
+    class="result"
+    *ngFor="let result of results"
+    [class.selected]="result === selectedResult"
+    (click)="resultSelected.emit(result)">
+    <span>{{ result.displayName }}</span>
+    <small>{{ result.latitude | number:'1.4-4' }}, {{ result.longitude | number:'1.4-4' }}</small>
+  </button>
+</section>

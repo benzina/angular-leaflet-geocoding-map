@@ -1,38 +1,153 @@
-# AngularLeafletStarter
+# Angular Leaflet Geocoding Map
 
-using interactive maps in your Angular application definitely Leaflet is a great choice. It’s open, easy to integrate with, and has strong community support.
+Mini-application Angular 13 concue comme piece portfolio frontend : recherche
+geographique, selection de resultats, carte interactive et points sauvegardes.
 
-This app will be rather simple. What we need is a map with a text input box, the results list, and the form with map point name and coordinates.
+**Demo live :** https://benzina.github.io/angular-leaflet-starter/
 
-We would need the following components:
+![Demo de recherche et sauvegarde de point](docs/demo-screenshot.png)
 
-MapComponent – which will contain a Leaflet map, it will be the master component
-GeocodingComponent – which will handle geocoding input and API integration
-ResultsListComponent – which will handle results from geocoding API
-MapPointFormComponent – which will contain information about selected map point
+## Fonctionnalites
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.6.
+- Recherche d'adresses et de lieux avec l'API Nominatim OpenStreetMap.
+- Gestion visible des etats de chargement, erreurs reseau et recherches sans resultat.
+- Liste de resultats cliquables pour centrer la carte et afficher un marqueur temporaire.
+- Formulaire de sauvegarde d'un point avec nom, latitude et longitude editables.
+- Validation du formulaire : nom obligatoire, latitude entre `-90` et `90`, longitude entre `-180` et `180`.
+- Marqueurs persistants sur la carte, sauvegardes dans `localStorage`.
+- Carte Leaflet reactive basee sur `@asymmetrik/ngx-leaflet`.
+- Tests unitaires pour le geocodage, le formulaire et le service de persistence.
+- Licence MIT.
 
-## Development server
+## Stack technique
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+- Angular `13.2`
+- TypeScript `4.5`
+- Leaflet `1.8`
+- `@asymmetrik/ngx-leaflet`
+- RxJS `7.5`
+- Karma + Jasmine
 
-## Code scaffolding
+## Architecture
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+L'application separe volontairement les responsabilites pour montrer un flux de
+donnees Angular clair.
 
-## Build
+`AppComponent` joue le role de composant conteneur. Il conserve l'etat de la
+recherche courante : resultats, resultat selectionne et indicateur "une
+recherche a deja ete lancee".
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+`GeocodingComponent` gere le champ de recherche, appelle Nominatim via
+`HttpClient`, puis emet les resultats normalises avec `@Output`.
 
-## Running unit tests
+`ResultsListComponent` est presentational : il recoit les resultats avec
+`@Input`, affiche les etats vide/resultats, puis emet le resultat choisi avec
+`@Output`.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+`MapPointFormComponent` recoit le resultat selectionne avec `@Input`, pre-remplit
+son formulaire reactif et sauvegarde le point via `MapPointsService`.
 
-## Running end-to-end tests
+`MapComponent` ecoute le meme `MapPointsService`. Le service expose un
+`Observable` base sur un `BehaviorSubject`, ce qui permet a la carte de se
+mettre a jour automatiquement des qu'un nouveau point est ajoute.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+`MapPointsService` est la source de verite pour les points sauvegardes. Il garde
+les points en memoire et les persiste dans `localStorage`, ce qui conserve les
+marqueurs apres rechargement de la page.
 
-## Further help
+## API Nominatim
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+La recherche utilise :
+
+```text
+https://nominatim.openstreetmap.org/search
+```
+
+Le projet limite volontairement les appels a une recherche explicite au submit
+du formulaire. Dans un navigateur, l'en-tete `User-Agent` ne peut pas etre
+defini manuellement par le code frontend ; l'identification publique se fait
+donc via le `Referer` de l'application deployee.
+
+## Installation
+
+```bash
+npm install
+```
+
+## Lancer l'application
+
+```bash
+npm start
+```
+
+Application locale :
+
+```text
+http://localhost:4200/
+```
+
+## Scripts disponibles
+
+```bash
+npm start
+```
+
+Lance le serveur de developpement Angular.
+
+```bash
+npm run build
+```
+
+Compile l'application dans `dist/angular-leaflet-geocoding-map`.
+
+```bash
+npm run watch
+```
+
+Compile en mode watch avec la configuration de developpement.
+
+```bash
+npm test -- --watch=false --browsers=ChromeHeadless
+```
+
+Lance les tests unitaires en mode CI local.
+
+## Structure du projet
+
+```text
+src/
+  app/
+    geocoding/             Recherche Nominatim
+    map/                   Carte Leaflet et marqueurs
+    map-point-form/        Formulaire de sauvegarde de point
+    models/                Types partages
+    results-list/          Liste presentational des resultats
+    services/              Etat et persistence des points
+    app.component.*        Composant conteneur
+    app.module.ts          Module principal
+  assets/
+    marker-icon.png        Icone du marqueur
+```
+
+## Deploiement
+
+Le build GitHub Pages a ete publie avec `angular-cli-ghpages`.
+
+Commande de build utilisee pour ce repository :
+
+```bash
+npm run build -- --base-href /angular-leaflet-starter/
+```
+
+Puis publication du dossier compile :
+
+```bash
+npx angular-cli-ghpages --dir=dist/angular-leaflet-geocoding-map
+```
+
+## Evolutions possibles
+
+- Renommer le repository GitHub pour aligner l'URL Pages avec le nouveau nom du projet.
+- Ajouter l'edition et la suppression des points sauvegardes.
+- Remplacer `localStorage` par un backend persistant.
+- Ajouter une limite/debounce si la recherche evolue vers de l'autocomplete.

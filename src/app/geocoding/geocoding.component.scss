@@ -1,0 +1,50 @@
+.geocoding {
+  display: grid;
+  gap: 0.5rem;
+}
+
+label {
+  color: #1f2937;
+  font-weight: 700;
+}
+
+.search-row {
+  display: flex;
+  gap: 0.75rem;
+}
+
+input {
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  flex: 1;
+  font: inherit;
+  min-width: 0;
+  padding: 0.8rem 0.9rem;
+}
+
+button {
+  background: #2563eb;
+  border: 0;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  padding: 0.8rem 1rem;
+}
+
+button:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+.feedback {
+  color: #b91c1c;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .search-row {
+    flex-direction: column;
+  }
+}

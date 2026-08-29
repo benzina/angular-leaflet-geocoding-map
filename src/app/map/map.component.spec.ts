@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 import { MapComponent } from './map.component';
 
@@ -8,7 +9,8 @@ describe('MapComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MapComponent ]
+      declarations: [ MapComponent ],
+      imports: [LeafletModule]
     })
     .compileComponents();
   });

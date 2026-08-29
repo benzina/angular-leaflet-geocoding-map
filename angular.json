@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-leaflet-starter": {
+    "angular-leaflet-geocoding-map": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/angular-leaflet-starter",
+            "outputPath": "dist/angular-leaflet-geocoding-map",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -73,10 +73,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "angular-leaflet-starter:build:production"
+              "browserTarget": "angular-leaflet-geocoding-map:build:production"
             },
             "development": {
-              "browserTarget": "angular-leaflet-starter:build:development"
+              "browserTarget": "angular-leaflet-geocoding-map:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -84,7 +84,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-leaflet-starter:build"
+            "browserTarget": "angular-leaflet-geocoding-map:build"
           }
         },
         "test": {
@@ -113,5 +113,5 @@
       }
     }
   },
-  "defaultProject": "angular-leaflet-starter"
+  "defaultProject": "angular-leaflet-geocoding-map"
 }

@@ -1,3 +1,14 @@
 #map {
-    height: 600px;
+  border: 1px solid #dbe3ee;
+  border-radius: 8px;
+  box-shadow: 0 16px 35px rgba(15, 23, 42, 0.08);
+  height: 720px;
+  min-height: 520px;
+  overflow: hidden;
+}
+
+@media (max-width: 900px) {
+  #map {
+    height: 520px;
   }
+}

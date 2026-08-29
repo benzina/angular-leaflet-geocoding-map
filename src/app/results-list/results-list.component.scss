@@ -1,0 +1,40 @@
+.results {
+  display: grid;
+  gap: 0.75rem;
+}
+
+h2 {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.empty {
+  color: #64748b;
+  margin: 0;
+}
+
+.result {
+  background: #fff;
+  border: 1px solid #dbe3ee;
+  border-radius: 6px;
+  cursor: pointer;
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.8rem;
+  text-align: left;
+}
+
+.result:hover,
+.result.selected {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+}
+
+span {
+  color: #111827;
+  font-weight: 700;
+}
+
+small {
+  color: #64748b;
+}

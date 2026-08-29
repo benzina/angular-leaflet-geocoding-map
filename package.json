@@ -1,5 +1,5 @@
 {
-  "name": "angular-leaflet-starter",
+  "name": "angular-leaflet-geocoding-map",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",

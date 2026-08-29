@@ -1,1 +1,25 @@
-<app-map></app-map>
+<main class="app-shell">
+  <section class="intro">
+    <p class="eyebrow">Angular 13 + Leaflet + Nominatim</p>
+    <h1>Carte de geocodage interactive</h1>
+    <p>
+      Recherchez un lieu, selectionnez un resultat et sauvegardez des points
+      persistants directement sur la carte.
+    </p>
+  </section>
+
+  <section class="workspace">
+    <aside class="sidebar">
+      <app-geocoding (resultsFound)="handleResultsFound($event)"></app-geocoding>
+      <app-results-list
+        [results]="results"
+        [hasSearched]="hasSearched"
+        [selectedResult]="selectedResult"
+        (resultSelected)="handleResultSelected($event)">
+      </app-results-list>
+      <app-map-point-form [selectedResult]="selectedResult"></app-map-point-form>
+    </aside>
+
+    <app-map [selectedResult]="selectedResult"></app-map>
+  </section>
+</main>
